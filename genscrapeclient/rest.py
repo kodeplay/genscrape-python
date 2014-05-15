@@ -97,9 +97,9 @@ class JSONRequests(object):
         :rtype: list or dict (deserialized json)
 
         """
-        r = self._client.post(self.url(path), data=json.dumps(data),
-                              headers={'content-type': 'application/json'},
-                              *args, **kwargs)
+        r = self._client.put(self.url(path), data=json.dumps(data),
+                             headers={'content-type': 'application/json'},
+                             *args, **kwargs)
         if r.status_code in {200, 201}:
             return r.json()
         else:
