@@ -98,7 +98,7 @@ class JSONRequests(object):
 
         """
         r = self._client.post(self.url(path), data=json.dumps(data),
-                              headers={'content-type': 'application/json'}
+                              headers={'content-type': 'application/json'},
                               *args, **kwargs)
         if r.status_code in {200, 201}:
             return r.json()
