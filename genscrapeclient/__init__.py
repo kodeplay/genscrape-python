@@ -33,7 +33,7 @@ class Crawls(ResourceManager):
 
     def start(self, scraper_id):
         data = {'scraper_id': scraper_id}
-        return self.client.post('/crawls', data)
+        return self.client.post('/crawls', data, statuses={202})
 
 
 class CrawledItems(ResourceManager):
