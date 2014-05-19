@@ -69,20 +69,22 @@ class JSONRequests(object):
         else:
             raise JSONRequestError(r)
 
-    def post(self, path, data, *args, **kwargs):
+    def post(self, path, data, statuses=None, *args, **kwargs):
         """Sends a post request and returns the response
 
         :param str path: url path
         :param data: data to send in the post request
-        :type data: list of dict (or anything json serializable)
+        :param statuses: status codes to be considered acceptable
+        :type statuses: None|set of ints (status codes)
         :returns: response of the post request
         :rtype: list or dict (deserialized json)
 
         """
+        statuses = {200, 201} if statuses is None else statuses
         r = self._client.post(self.url(path), data=json.dumps(data),
                               headers={'content-type': 'application/json'},
                               *args, **kwargs)
-        if r.status_code in {200, 201}:
+        if r.status_code in statuses:
             return r.json()
         else:
             raise JSONRequestError(r)
