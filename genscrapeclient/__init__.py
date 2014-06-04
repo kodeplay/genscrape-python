@@ -1,5 +1,7 @@
 from .rest import JSONRequests, ResourceManager, BaseAPI
 
+from requests_oauthlib import OAuth1Session
+
 
 class Scrapers(ResourceManager):
     __resourcename__ = 'scrapers'
@@ -68,9 +70,10 @@ class CrawledItems(ResourceManager):
 
 class GenscrapeAPI(BaseAPI):
 
-    def __init__(self, base_url):
+    def __init__(self, base_url, api_key, api_secret):
         super(GenscrapeAPI, self).__init__()
-        self.client = JSONRequests(base_url)
+        session = OAuth1Session(api_key, api_secret, None, None)
+        self.client = JSONRequests(base_url, client=session)
 
     def for_resource(self, resource):
         ResourceManagerCls = self.resource_factory(resource)
