@@ -7,7 +7,7 @@ with open('./README.rst') as f:
 
 setup(
     name='genscrapeclient',
-    version='0.1',
+    version='0.2',
     author='Vineet Naik',
     author_email='vineet.naik@kodeplay.com',
     url='http://kodeplay.com',
