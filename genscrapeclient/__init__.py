@@ -37,6 +37,19 @@ class Crawls(ResourceManager):
         data = {'scraper_id': scraper_id}
         return self.client.post('/crawls', data, statuses={202})
 
+    def update_status(self, crawl_id, status):
+        """Update the status of the crawl
+
+        :param int crawl_id: crawl_id
+        :param str status: one of {pending,crawling,complete,cancelled}
+        :returns: updated crawl object
+        :rtype: dict
+        :raises JSONRequestError: in case of error
+
+        """
+        data = {'status': status}
+        return self.client.patch('/crawls/{}'.format(crawl_id), data)
+
 
 class CrawledItems(ResourceManager):
     __resourcename__ = 'crawled_items'
