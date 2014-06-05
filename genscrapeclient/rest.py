@@ -5,13 +5,13 @@ import requests
 
 
 class ResourceManager(object):
-    
+
     def __init__(self, client):
         self.client = client
 
 
 class BaseAPI(object):
-    
+
     def __init__(self):
         self.resources = {getattr(sc, '__resourcename__', cc_to_uc(sc.__name__)): sc
                           for sc in ResourceManager.__subclasses__()}
@@ -53,41 +53,50 @@ class JSONRequests(object):
         """
         return '{}{}'.format(self.base_url, path)
 
-    def get(self, path, *args, **kwargs):
-        """Sends a get request and returns response
+    def request(self, method, path, expected_statuses, *args, **kwargs):
+        """Sends request to the server and returns the response
 
-        Raises a JSONRequestError in case the response is not 200
-
-        :param str path: url path
-        :returns: response of the get request
-        :rtype: list or dict (deserialized json)
+        :param str method: name of the method
+        :param str path: path of the resource url
+        :param set expected_statuses: set of expected status codes
+        :returns: response from the api
+        :rtype: json decoded value
 
         """
-        r = self._client.get(self.url(path))
-        if r.status_code == 200:
+        f = getattr(self._client, method)
+        if 'data' in kwargs:
+            kwargs['data'] = json.dumps(kwargs['data'])
+        headers = {'content-type': 'application/json'}
+        r = f(self.url(path), headers=headers, *args, **kwargs)
+        if r.status_code in expected_statuses:
             return r.json()
         else:
             raise JSONRequestError(r)
 
-    def post(self, path, data, statuses=None, *args, **kwargs):
+    def get(self, path, *args, **kwargs):
+        """Sends a get request and returns response
+
+        :param str path: url path
+        :returns: response of the get request
+        :rtype: json decoded value
+        :raises JSONRequestError: if status is not 200
+
+        """
+        return self.request('get', path, {200}, *args, **kwargs)
+
+    def post(self, path, data, *args, **kwargs):
         """Sends a post request and returns the response
 
         :param str path: url path
         :param data: data to send in the post request
-        :param statuses: status codes to be considered acceptable
-        :type statuses: None|set of ints (status codes)
+        :type data: json serializable value
         :returns: response of the post request
-        :rtype: list or dict (deserialized json)
+        :rtype: json decoded value
+        :raises JSONRequestError: if status is not one of 201,202
 
         """
-        statuses = {200, 201} if statuses is None else statuses
-        r = self._client.post(self.url(path), data=json.dumps(data),
-                              headers={'content-type': 'application/json'},
-                              *args, **kwargs)
-        if r.status_code in statuses:
-            return r.json()
-        else:
-            raise JSONRequestError(r)
+        kwargs['data'] = data
+        return self.request('post', path, {201, 202}, *args, **kwargs)
 
     def put(self, path, data, *args, **kwargs):
         """Sends a put request and returns the response
@@ -96,26 +105,37 @@ class JSONRequests(object):
         :param data: data to send in the put request
         :type data: list of dict (or anything json serializable)
         :returns: response of the put request
-        :rtype: list or dict (deserialized json)
+        :rtype: json decoded value
+        :raises JSONRequestError: if status is not one of 200,201,202
 
         """
-        r = self._client.put(self.url(path), data=json.dumps(data),
-                             headers={'content-type': 'application/json'},
-                             *args, **kwargs)
-        if r.status_code in {200, 201}:
-            return r.json()
-        else:
-            raise JSONRequestError(r)
+        kwargs['data'] = data
+        return self.request('put', path, {200, 201, 202}, *args, **kwargs)
 
-    def delete(self, path):
+    def patch(self, path, data, *args, **kwargs):
+        """Sends a patch request and returns the response
+
+        :param str path: url path
+        :param data: data to send in the patch request
+        :type data: json serializable value
+        :returns: response of the patch request
+        :rtype: json decoded value
+        :raises JSONRequestError: if status is not one of 200,202
+
+        """
+        kwargs['data'] = data
+        return self.request('patch', path, {200, 202}, *args, **kwargs)
+
+    def delete(self, path, *args, **kwargs):
         """Sends a delete request to the API
 
         :param str path: url path
-        :returns: Nothing
-        :rtype: NoneType
+        :returns: response of the delete request
+        :rtype: NoneType or json decoded value
+        :raises JSONRequestError: if status is not one of 202,204
 
         """
-        self._client.delete(self.url(path))
+        return self.request('delete', path, {202, 204}, *args, **kwargs)
 
 
 class JSONRequestError(Exception):
