@@ -35,7 +35,7 @@ class Crawls(ResourceManager):
 
     def start(self, scraper_id):
         data = {'scraper_id': scraper_id}
-        return self.client.post('/crawls', data, statuses={202})
+        return self.client.post('/crawls', data)
 
     def update_status(self, crawl_id, status):
         """Update the status of the crawl
