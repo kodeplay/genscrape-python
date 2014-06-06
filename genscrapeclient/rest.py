@@ -79,7 +79,7 @@ class JSONRequests(object):
         :param str path: url path
         :returns: response of the get request
         :rtype: json decoded value
-        :raises JSONRequestError: if status is not 200
+        :raises: JSONRequestError if status is not 200
 
         """
         return self.request('get', path, {200}, *args, **kwargs)
@@ -92,7 +92,7 @@ class JSONRequests(object):
         :type data: json serializable value
         :returns: response of the post request
         :rtype: json decoded value
-        :raises JSONRequestError: if status is not one of 201,202
+        :raises: JSONRequestError if status is not one of 201,202
 
         """
         kwargs['data'] = data
@@ -106,7 +106,7 @@ class JSONRequests(object):
         :type data: list of dict (or anything json serializable)
         :returns: response of the put request
         :rtype: json decoded value
-        :raises JSONRequestError: if status is not one of 200,201,202
+        :raises: JSONRequestError if status is not one of 200,201,202
 
         """
         kwargs['data'] = data
@@ -120,7 +120,7 @@ class JSONRequests(object):
         :type data: json serializable value
         :returns: response of the patch request
         :rtype: json decoded value
-        :raises JSONRequestError: if status is not one of 200,202
+        :raises: JSONRequestError if status is not one of 200,202
 
         """
         kwargs['data'] = data
@@ -132,7 +132,7 @@ class JSONRequests(object):
         :param str path: url path
         :returns: response of the delete request
         :rtype: NoneType or json decoded value
-        :raises JSONRequestError: if status is not one of 202,204
+        :raises: JSONRequestError if status is not one of 202,204
 
         """
         return self.request('delete', path, {202, 204}, *args, **kwargs)
