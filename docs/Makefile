@@ -7,6 +7,9 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 
+# To upload files using rsync, can be set from command line.
+UPLOAD_LOCATION = genscrape:/var/docs/genscrapeclient/
+
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
 $(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
@@ -45,6 +48,7 @@ help:
 	@echo "  pseudoxml  to make pseudoxml-XML files for display purposes"
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
+	@echo "  upload     to upload the html files using rsync, you can set UPLOAD_LOCATION"
 
 clean:
 	rm -rf $(BUILDDIR)/*
@@ -175,3 +179,7 @@ pseudoxml:
 	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
+
+upload:
+	@echo "Uploading files using rsync"
+	rsync -av _build/html/ $(UPLOAD_LOCATION)
