@@ -1,31 +1,32 @@
 Genscrape API Client
 ====================
 
-API client lib for Genscrape API
+Genscrape Client is the API Client library for Genscrape. To use the
+Genscrape API, you will need to have an account there and a valid API
+key and secret. To create an account, send an email to
+`karan@kodeplay.com <karan@kodeplay.com>`_.
 
 
-Endpoints
----------
+Dependencies
+------------
 
-* Scrapers
-  
-  - get (by scraper_id)
-  - all
-  - create
-  - delete
-  - update
+The only dependency is `requests-oauthlib
+<https://pypi.python.org/pypi/requests-oauthlib/0.4.0>`_.
 
 
-* Crawls
+Installation
+------------
 
-  - get (by crawl_id)
-  - all
-  - start (start crawl for a scraper_id)
+This library is yet to be packaged and published to PyPI. Till then,
+just clone the git repository and run, ::
+
+    $ python setup.py install
 
 
-* Crawled Items
+Preferably install inside a virtualenv.
 
-  - all
-  - get_paginated (paginated items by ``page`` and ``per_page``)
-  - create
-  - delete
+
+Usage
+-----
+
+See `docs <http://54.255.217.187/docs/genscrapeclient/index.html>`_.
