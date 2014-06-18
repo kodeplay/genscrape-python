@@ -6,15 +6,16 @@ from requests_oauthlib import OAuth1Session
 class Scrapers(ResourceManager):
     __resourcename__ = 'scrapers'
 
-    def get(self, scraper_id):
+    def get(self, id_or_name):
         """Gets the scraper from it's id
 
-        :param int scraper_id: Identifier for the scraper
+        :param id_or_name: id or name of scraper for identification
+        :type id_or_name: int or str
         :returns: the scraper data
         :rtype: dict
 
         """
-        return self.client.get('/scrapers/{}'.format(scraper_id))
+        return self.client.get('/scrapers/{}'.format(id_or_name))
 
     def all(self):
         """Gets all the scrapers
@@ -37,20 +38,22 @@ class Scrapers(ResourceManager):
         data = {'name': name, 'config': config}
         return self.client.post('/scrapers', data)
 
-    def delete(self, scraper_id):
+    def delete(self, id_or_name):
         """Deletes a scraper by it's ID
 
-        :param int scraper_id: the identifier of the scraper
+        :param id_or_name: id or name of scraper for identification
+        :type id_or_name: int or str
         :returns: None
         :rtype: NoneType
 
         """
-        return self.client.delete('/scrapers/{}'.format(scraper_id))
+        return self.client.delete('/scrapers/{}'.format(id_or_name))
 
-    def update(self, scraper_id, name, config):
+    def update(self, id_or_name, name, config):
         """Update the scraper config and name by sending PUT request.
 
-        :param int scraper_id: id of the scraper
+        :param id_or_name: id or name of scraper for identification
+        :type id_or_name: int or str
         :param str name: new name of the scraper to set
         :param dict config: new config to set
         :returns: the updated scraper data
@@ -58,7 +61,7 @@ class Scrapers(ResourceManager):
 
         """
         data = {'name': name, 'config': config}
-        return self.client.put('/scrapers/{}'.format(scraper_id), data)
+        return self.client.put('/scrapers/{}'.format(id_or_name), data)
 
 
 class Crawls(ResourceManager):
@@ -83,7 +86,7 @@ class Crawls(ResourceManager):
         """
         return self.client.get('/crawls')
 
-    def start(self, scraper_id):
+    def start(self, id_or_name):
         """Create a new crawl and begins crawling of sites
 
         Note that it just triggers the crawling which will take some
@@ -93,12 +96,13 @@ class Crawls(ResourceManager):
         is complete, the status will be set to 'complete' after which
         it's ok to send request to get the items.
 
-        :param int scraper_id: id of the scraper
+        :param id_or_name: id or name of scraper for identification
+        :type id_or_name: int or str
         :returns: the newly created crawl
         :rtype: dict
 
         """
-        data = {'scraper_id': scraper_id}
+        data = {'scraper_id': id_or_name}
         return self.client.post('/crawls', data)
 
     def update_status(self, crawl_id, status):
