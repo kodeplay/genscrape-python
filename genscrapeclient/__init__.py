@@ -7,7 +7,7 @@ class Scrapers(ResourceManager):
     __resourcename__ = 'scrapers'
 
     def get(self, id_or_name):
-        """Gets the scraper from it's id
+        """Gets the scraper by it's id or name
 
         :param id_or_name: id or name of scraper for identification
         :type id_or_name: int or str
@@ -39,7 +39,7 @@ class Scrapers(ResourceManager):
         return self.client.post('/scrapers', data)
 
     def delete(self, id_or_name):
-        """Deletes a scraper by it's ID
+        """Deletes a scraper by it's id or name
 
         :param id_or_name: id or name of scraper for identification
         :type id_or_name: int or str
