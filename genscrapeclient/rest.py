@@ -69,7 +69,8 @@ class JSONRequests(object):
         headers = {'content-type': 'application/json'}
         r = f(self.url(path), headers=headers, *args, **kwargs)
         if r.status_code in expected_statuses:
-            return r.json()
+            if r.status_code != 204:
+                return r.json()
         else:
             raise JSONRequestError(r)
 
