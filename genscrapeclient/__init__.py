@@ -1,4 +1,4 @@
-from .rest import JSONRequests, ResourceManager, BaseAPI
+from .rest import JSONRequests,JSONRequestError, ResourceManager, BaseAPI
 
 from requests_oauthlib import OAuth1Session
 
@@ -16,6 +16,21 @@ class Scrapers(ResourceManager):
 
         """
         return self.client.get('/scrapers/{}'.format(id_or_name))
+
+    def exists(self, id_or_name):
+        """Check where the scraper with given id or name exists
+
+        :param id_or_name: id or name of the scraper
+        :type id_or_name: int or str
+        :returns: whether the scraper exists
+        :rtype: bool
+        
+        """
+        try:
+            return bool(self.get(id_or_name))
+        except JSONRequestError:
+            return False
+
 
     def all(self):
         """Gets all the scrapers
