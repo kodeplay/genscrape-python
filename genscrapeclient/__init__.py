@@ -7,7 +7,7 @@ class Scrapers(ResourceManager):
     __resourcename__ = 'scrapers'
 
     def get(self, id_or_name):
-        """Gets the scraper from it's id
+        """Gets the scraper by it's id or name
 
         :param id_or_name: id or name of scraper for identification
         :type id_or_name: int or str
@@ -54,7 +54,7 @@ class Scrapers(ResourceManager):
         return self.client.post('/scrapers', data)
 
     def delete(self, id_or_name):
-        """Deletes a scraper by it's ID
+        """Deletes a scraper by it's id or name
 
         :param id_or_name: id or name of scraper for identification
         :type id_or_name: int or str
@@ -120,19 +120,6 @@ class Crawls(ResourceManager):
         data = {'scraper_id': id_or_name}
         return self.client.post('/crawls', data)
 
-    def update_status(self, crawl_id, status):
-        """Update the status of the crawl
-
-        :param int crawl_id: crawl_id
-        :param str status: one of {pending,crawling,complete,cancelled}
-        :returns: updated crawl object
-        :rtype: dict
-        :raises: JSONRequestError in case of error
-
-        """
-        data = {'status': status}
-        return self.client.patch('/crawls/{}'.format(crawl_id), data)
-
 
 class CrawledItems(ResourceManager):
     __resourcename__ = 'crawled_items'
@@ -175,17 +162,6 @@ class CrawledItems(ResourceManager):
             for item in r.json():
                 yield item
             next_page = None if 'next' not in r.links else r.links['next']['url']
-
-    def create(self, crawl_id, data):
-        """Creates a new item
-
-        :param int crawl_id: id of the crawl
-        :param dict data: the item data to store
-        :returns: the stored item
-        :rtype: dict
-
-        """
-        return self.client.post('/crawls/{}/items'.format(crawl_id), data)
 
     def delete(self, crawl_id):
         """Deletes all items for a crawl
