@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open('./README.rst') as f:
@@ -15,5 +15,5 @@ setup(
     description='Client API library for the Genscrape API',
     long_description=long_desc,
     install_requires=["requests-oauthlib==0.4.0"],
-    py_modules=['genscrapeclient'],
+    packages=find_packages()
 )
