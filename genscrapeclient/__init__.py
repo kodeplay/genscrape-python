@@ -3,6 +3,9 @@ from .rest import JSONRequests,JSONRequestError, ResourceManager, BaseAPI
 from requests_oauthlib import OAuth1Session
 
 
+__version__ = '0.2.2'
+
+
 class Scrapers(ResourceManager):
     __resourcename__ = 'scrapers'
 
