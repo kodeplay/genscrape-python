@@ -1,4 +1,4 @@
-from .rest import JSONRequests,JSONRequestError, ResourceManager, BaseAPI
+from .rest import JSONRequests, JSONRequestError, ResourceManager, BaseAPI
 
 from requests_oauthlib import OAuth1Session
 
@@ -24,13 +24,12 @@ class Scrapers(ResourceManager):
         :type id_or_name: int or str
         :returns: whether the scraper exists
         :rtype: bool
-        
+
         """
         try:
             return bool(self.get(id_or_name))
         except JSONRequestError:
             return False
-
 
     def all(self):
         """Gets all the scrapers
@@ -134,7 +133,8 @@ class CrawledItems(ResourceManager):
         :rtype: list of dicts
 
         """
-        url = '/crawls/{}/items?page={}&per_page={}'.format(crawl_id, page, per_page)
+        url = '/crawls/{}/items?page={}&per_page={}'.\
+            format(crawl_id, page, per_page)
         return self.client.get(url)
 
     def all(self, crawl_id):
@@ -161,7 +161,7 @@ class CrawledItems(ResourceManager):
             assert r.status_code == 200
             for item in r.json():
                 yield item
-            next_page = None if 'next' not in r.links else r.links['next']['url']
+            next_page = r.links['next']['url'] if 'next' in r.links else None
 
     def delete(self, crawl_id):
         """Deletes all items for a crawl
