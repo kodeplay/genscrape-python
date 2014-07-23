@@ -21,7 +21,7 @@ class Scrapers(ResourceManager):
         return self.client.get('/scrapers/{}'.format(id_or_name))
 
     def exists(self, id_or_name):
-        """Check where the scraper with given id or name exists
+        """Check whether the scraper with given id or name exists
 
         :param id_or_name: id or name of the scraper
         :type id_or_name: int or str
