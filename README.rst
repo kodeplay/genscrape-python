@@ -1,10 +1,11 @@
 Genscrape API Client
 ====================
 
-Genscrape Client is the API Client library for Genscrape. To use the
-Genscrape API, you will need to have an account there and a valid API
-key and secret. To create an account, send an email to
-`karan@kodeplay.com <karan@kodeplay.com>`_.
+Genscrape Client is API Client library for `Genscrape
+<http://genscrape.in>`_. To use the Genscrape API, you will need to
+have an account there and a valid API key and secret. You may do so by
+signing up for an account on the Genscrape website or by simply
+`sending us an email <mailto:karan@kodeplay.com>`_.
 
 
 Dependencies
@@ -17,16 +18,18 @@ The only dependency is `requests-oauthlib
 Installation
 ------------
 
-This library is yet to be packaged and published to PyPI. Till then,
-just clone the git repository and run, ::
+It can be installed from `PyPI
+<https://pypi.python.org/pypi/genscrapeclient>`_ using `pip
+<http://pip.readthedocs.org/en/latest/>`_ as follows, ::
 
-    $ python setup.py install
+    $ pip install genscrapeclient
 
 
-Preferably install inside a virtualenv.
+Preferably install inside a `virtualenv
+<http://virtualenv.readthedocs.org/en/latest/>`_.
 
 
 Usage
 -----
 
-See `docs <http://54.255.217.187/docs/genscrapeclient/index.html>`_.
+See `docs <http://genscrape.in/docs/genscrapeclient>`_.
